@@ -6,7 +6,7 @@ const fs = require('fs');
 const DetectionExtension = require('./lib/videotagging_extensions').Detection;
 const ipcRenderer = require('electron').ipcRenderer;
 const testSetSize = .20;
-var trackingEnabled = true;
+var trackingEnabled = false;
 var saveState,
     visitedFrames, //keep track of the visited frames
     videotagging,
