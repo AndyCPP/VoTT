@@ -56,7 +56,7 @@
                 <span id="stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepFwdClicked'></span>
               </td>
               <td class="videoControlCell simpleControl clickableControl">
-                <span id="nextuntagged"  title="first untagged frame" class="icon-next2 taggingControls" on-click='nextUntaggedClicked'></span>
+                <span id="nexttagged"  title="first tagged frame" class="icon-next2 taggingControls" on-click='nextTaggedClicked'></span>
               </td>
               <td class="videoControlCell simpleControl clickableControl">
                 <span id="clearRegions"  title="clear tags" class="glyphicon glyphicon-ban-circle taggingControls" on-click='clearRegions'></span>
@@ -512,30 +512,19 @@
                region.tags.push(selectedTagsArray[i]);
           }
     },
-    nextUntaggedClicked:function() {
+    nextTaggedClicked:function() {
         if (this.checkRegionLabels()){
           var frameIndex = this.getCurrentFrame();
-            if (this.imagelist){//image handling
-                var lastTagIndex = parseInt(Object.keys(this.frames)[Object.keys(this.frames).length-1])
-                if (this.imageIndex < this.imagelist.length) {
-                    if (lastTagIndex <= frameIndex){
-                        this.imageIndex++;
-                    } else {
-                        this.imageIndex = lastTagIndex;
-                    }
-                    this.changeImage(`url(file://${this.imagelist[this.imageIndex].replace(/\\/g,"/")})`);
-                    this.playingCallback();
-                }
+            if (this.imagelist){//image handling}
             } else { //video handling
                 var lastTagIndex = Object.keys(document.getElementById("video-tagging").frames).length;
-                var nextFrameOffset = Math.max((lastTagIndex - frameIndex), 1);
                 if(!this.video.paused) this.pauseState();
                 if ((this.video.currentTime + this.frameTime) > this.video.duration ){
                     return;
                 }
                 if (!this.canMove ) return; 
                 //if there are no unlabled tags move to next frame
-                this.video.currentTime += this.frameTime * (nextFrameOffset);
+                this.video.currentTime = this.frameTime * (lastTagIndex);
                 this.playingCallback();            
             }
         }
