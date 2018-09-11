@@ -56,7 +56,7 @@
                 <span id="stepfwd" title="next" class="icon-forward3 taggingControls" on-click='stepFwdClicked'></span>
               </td>
               <td class="videoControlCell simpleControl clickableControl">
-                <span id="nexttagged"  title="first tagged frame" class="icon-next2 taggingControls" on-click='nextTaggedClicked'></span>
+                <span id="nexttagged"  title="next tagged frame" class="icon-next2 taggingControls" on-click='nextTaggedClicked'></span>
               </td>
               <td class="videoControlCell simpleControl clickableControl">
                 <span id="clearRegions"  title="clear tags" class="glyphicon glyphicon-ban-circle taggingControls" on-click='clearRegions'></span>
@@ -517,14 +517,21 @@
           var frameIndex = this.getCurrentFrame();
             if (this.imagelist){//image handling}
             } else { //video handling
-                var lastTagIndex = Object.keys(document.getElementById("video-tagging").frames).length;
+                var TagIndexs = Object.keys(document.getElementById("video-tagging").frames);
+                var nextIndex = TagIndexs[TagIndexs.length-1];
+                for (var i = 0; i<TagIndexs.length; i++){
+                    if (TagIndexs[i]>frameIndex){
+                        nextIndex = TagIndexs[i];
+                        break;
+                    }
+                }
                 if(!this.video.paused) this.pauseState();
                 if ((this.video.currentTime + this.frameTime) > this.video.duration ){
                     return;
                 }
                 if (!this.canMove ) return; 
                 //if there are no unlabled tags move to next frame
-                this.video.currentTime = this.frameTime * (lastTagIndex);
+                this.video.currentTime = this.frameTime * (nextIndex-1);
                 this.playingCallback();            
             }
         }
