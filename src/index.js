@@ -337,8 +337,8 @@ function openPath(pathName, isDir) {
               saveHandler: save
           });
           videotagging.video.oncanplay = updateVisitedFrames; 
-          //track visited frames
-          trackingExtension.startTracking();
+          //NOT to track visited frames
+          trackingExtension.stopTracking();
         }
 
         //init detection
