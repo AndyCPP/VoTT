@@ -67,6 +67,12 @@
               <td class="videoControlCell frameNumber">
                 <span id='frameText' class="textElements" title="frame#"></span>
               </td>
+              <td class="videoControlCell tagNumber">
+                <span id='tagText' class="textElements" title="tag#"></span>
+              </td>
+              <td class="videoControlCell totalTagNumber">
+                <span id='tagAmount' class="textElements" title="tag amount"></span>
+              </td>            
               <td id="playSpeedCell" title="play speed" class="videoControlCell longControl clickableControl" style="display: none">
                 <span id="playbackSpan"  class="textElements" on-click="playbackSpeedClicked">x 1.0</span>
               </td>
@@ -150,6 +156,8 @@
         this.regionLabelSpan = this.$$('#regionLabelSpan');
         this.timeSpan = this.$$('#timeSpan');
         this.frameText = this.$$("#frameText");
+        this.tagText = this.$$("#tagText");
+        this.tagAmount = this.$$("#tagAmount");
         this.playbackSpan = this.$$("#playbackSpan");
 
         // Buttons
@@ -1134,7 +1142,11 @@
     },
     playingCallback: function() {
             if (!this.imagelist){
-                this.frameText.innerHTML = this.getCurrentFrame();
+                var curFrame =  this.getCurrentFrame();
+                this.frameText.innerHTML = curFrame;
+                var taggedFrame = Object.keys(document.getElementById("video-tagging").frames);
+                this.tagText.innerHTML = taggedFrame.indexOf(curFrame.toString())+1;
+                this.tagAmount.innerHTML = taggedFrame.length;
                 this.displayVideoTime();
                 if(!this.seeking){
                     this.updateSeekBar();
